@@ -193,7 +193,7 @@ public class Solution {
                  *Using Arithmetic progression to fill missing values
                  * FirstNumber + (n-1)*commonDifference
                  */
-                arithmeticProgToFillValue(justValues, curr, next, noOfContinuousVacantPosition, prevDayValue);
+                fillValuesWithArithmeticProgression(justValues, curr, next, noOfContinuousVacantPosition, prevDayValue);
                 curr = next + 1;
             }
             curr++;
@@ -208,13 +208,13 @@ public class Solution {
      *
      * @param justValues contains only the values from the dictionary
      * @param next       starting index of missing values
-     * @param Visited    days which are present in dictionary
+     * @param visited    days which are present in dictionary
      * @return the index of the Next Day
      */
-    private int getNextDay(List<Integer> justValues, int next, Set<Integer> Visited) {
+    private int getNextDay(List<Integer> justValues, int next, Set<Integer> visited) {
         int result = next;
         while ((result + 1) < justValues.size()) {
-            if (justValues.get(result + 1) == 0 && !Visited.contains(result + 1)) {
+            if (justValues.get(result + 1) == 0 && !visited.contains(result + 1)) {
                 result++;
             } else {
                 break;
@@ -224,7 +224,7 @@ public class Solution {
     }
 
     /**
-     * Stores just the value in List justValues
+     * This method stores just the value in List justValues
      *
      * @param resDictionary Output Dictionary
      * @param justValues    list consists of only the value part of Dictionary
@@ -239,10 +239,10 @@ public class Solution {
      * This method Uses Arithmetic Progression to fill the missing Values
      *
      * @param next                        index OF next Day where value is present or Already Filled
-     * @param noOfContinuesVacantPosition no of continues Unfilled Values
+     * @param noOfContinuousVacantPosition no of continues Unfilled Values
      */
-    private void arithmeticProgToFillValue(List<Integer> justValues, int curr, int next, int noOfContinuesVacantPosition, int prevValue) {
-        int commonDiff = (justValues.get(next + 1) - prevValue) / (noOfContinuesVacantPosition + 1);
+    private void fillValuesWithArithmeticProgression(List<Integer> justValues, int curr, int next, int noOfContinuousVacantPosition, int prevValue) {
+        int commonDiff = (justValues.get(next + 1) - prevValue) / (noOfContinuousVacantPosition + 1);
         //starts filling with second digit of the sequence X=2
         int x = 2;
         for (int i = curr + 1; i < next + 1; i++) {
