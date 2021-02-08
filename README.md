@@ -4,6 +4,9 @@ Given a Dictionary D where key is in format YYYY-MM-DD and the corresponding val
 returns a Dictionary
 			With Key type String is Day
   		corresponding value is the sum of values of that day
+Unit tests present in Test Directory
+		
+
 		
 
 I’m constantly working to improve myself, and I’d like to hear your thoughts about what are the areas I could improve upon.
