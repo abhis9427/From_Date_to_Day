@@ -11,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class SolutionTest {
 
 
-    // Input Dictionary has all the day
+    /**
+     * This test Case has all the days of week
+     * basic test case
+     */
     @Test
     void BasicTestCase_ContainsAllDays() {
         Solution solObj = new Solution();
@@ -32,6 +35,10 @@ class SolutionTest {
 
     }
 
+    /**
+     * This test case check if there is two missing value
+     * the solution is able to correctly fill the missing values
+     */
     @Test
     void BasicTestCase_MissingTwoDays() {
         Solution solObj = new Solution();
@@ -53,6 +60,10 @@ class SolutionTest {
 
     }
 
+    /**
+     * This test case has only dates of two days Monday and Sunday
+     * checks if the solution is able to fill all the 5 missing values
+     */
     @Test
     void BasicTestCase_MondaySundayIsGiven() {
         Solution solObj = new Solution();
@@ -73,7 +84,10 @@ class SolutionTest {
     }
 
 
-    // Input Dictionary has invalid day
+    /**
+     * This test case checks if the solution can handle Invalid day Entry
+     * (date:2020-01-71 not a valid date )
+     */
     @Test
     void BasicTestCase_inValidDay() {
         Solution reso = new Solution();
@@ -89,7 +103,9 @@ class SolutionTest {
 
     }
 
-
+    /**
+     * This test case checks if the solution can handle Invalid Month Entry
+     */
     @Test
     void BasicTestCase_inValidMonth() {
         Solution reso = new Solution();
@@ -101,8 +117,9 @@ class SolutionTest {
         assertNull(result);
     }
 
-
-    // Input Dictionary year as 1970
+    /**
+     * This test case verifies if valid solution is obtained on year 1970
+     */
     @Test
     void BasicTestCase_NegativeExtremeYear() {
         Solution solObj = new Solution();
@@ -123,7 +140,9 @@ class SolutionTest {
 
     }
 
-
+    /**
+     * This test case verifies if valid solution is obtained on year 2100
+     */
     @Test
     void BasicTestCase_PositiveExtremeYear() {
         Solution solObj = new Solution();
@@ -143,6 +162,9 @@ class SolutionTest {
 
     }
 
+    /**
+     * This test case verifies if valid solution is obtained on random year
+     */
     @Test
     void BasicTestCase_MidRangeYear() {
         Solution solObj = new Solution();
@@ -160,7 +182,9 @@ class SolutionTest {
         assertEquals(expected2, result);
     }
 
-
+    /**
+     * This test case check if solution can handle more or equal to 30 entries
+     */
     @Test
     void BasicTestCase_largeNoOfEntries() {
         Solution solObj = new Solution();
@@ -182,6 +206,9 @@ class SolutionTest {
 
     }
 
+    /**
+     * this test case checks the solution when the value is large
+     */
     @Test
     void BasicTestCase_extremeValue() {
         Solution solObj = new Solution();

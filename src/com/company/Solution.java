@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Solution {
+
     public LinkedHashMap<String, Integer> dateToDay(Map<String, Integer> dictionary) {
         // Creating Calendar class instance.
         Calendar calendar = Calendar.getInstance();
@@ -19,7 +20,7 @@ public class Solution {
         resDictionary.put("Sat", 0);
         resDictionary.put("Sun", 0);
         //Keeping track of no of days filled
-        Set<String> visited = new HashSet<>();
+        Set<Integer> visited = new HashSet<>();
         // using keySet() for iteration over DATES
 
         for (String date : dictionary.keySet()) {
@@ -32,7 +33,7 @@ public class Solution {
                 Integer val = resDictionary.get(dayName);
                 val += dictionary.get(date);
                 resDictionary.put(dayName, val);
-                visited.add(dayName);
+                trackingVisited(visited, dayName);
             } else {
                 System.out.println("Date is invalid : " + date);
                 return null;
@@ -42,13 +43,48 @@ public class Solution {
         if (visited.size() < 7) {
             fillUnavailableDays(resDictionary, visited);
         }
-
-
         return resDictionary;
-
     }
 
-    // takes string date and converts to date object
+    /**
+     * This method takes Day name and stores its index
+     * to be used to check if the days is present in the input dictionary
+     * the main purpose is to handle if at any specific day
+     * the value sums up to zero should not be treated as missing value
+     *
+     * @param visited its a list to store index of day in sequentially
+     * @param dayName name of the day
+     */
+    private void trackingVisited(Set<Integer> visited, String dayName) {
+        if (dayName.equals("Mon")) {
+            visited.add(0);
+        }
+        if (dayName.equals("Tue")) {
+            visited.add(1);
+        }
+        if (dayName.equals("Wed")) {
+            visited.add(2);
+        }
+        if (dayName.equals("Thu")) {
+            visited.add(3);
+        }
+        if (dayName.equals("Fri")) {
+            visited.add(4);
+        }
+        if (dayName.equals("Sat")) {
+            visited.add(5);
+        }
+        if (dayName.equals("Sun")) {
+            visited.add(6);
+        }
+    }
+
+    /**
+     * This method returns Valid Date object for further Processing
+     *
+     * @param date Date String from Input Dictionary
+     * @return date object
+     */
     private Date getValidDate(String date) {
 
         Date mydate = null;
@@ -77,6 +113,8 @@ public class Solution {
     }
 
     /**
+     * This method takes day no as Input and returns day name as return value
+     *
      * @param dayOfWeek the index of the day Number in week
      * @return day name
      */
@@ -110,9 +148,9 @@ public class Solution {
     }
 
 
-    // checks if the date is valid
-
     /**
+     * This method checks if the date is valid or not
+     *
      * @param date string from input Dictionary
      * @return Valid date (TRUE/FALSE)
      */
@@ -132,12 +170,14 @@ public class Solution {
     // Filling the days whose dates are not available
 
     /**
+     * This method fill the day which are missing in input Dictionary
+     *
      * @param resDictionary Output Dictionary
      * @param visited       list consist of days filled from input Dictionary
      */
-    private void fillUnavailableDays(LinkedHashMap<String, Integer> resDictionary, Set<String> visited) {
+    private void fillUnavailableDays(LinkedHashMap<String, Integer> resDictionary, Set<Integer> visited) {
         List<Integer> justValues = new ArrayList<>();
-        storingValueInList(resDictionary, visited, justValues);
+        storingValueInList(resDictionary, justValues);
         //Locating the unavailable day from input Date
         // Finding ZEROS.. or missing days
         int curr = 0;
@@ -145,11 +185,9 @@ public class Solution {
         // curr+1 gives the starting Index of ZERO (Unfilled day/days)
         while ((curr + 1) < 6) {
             next = curr + 1;
-            if (justValues.get(curr + 1) == 0) {
-                next = getNextDay(justValues, next);
+            if (justValues.get(curr + 1) == 0 && !visited.contains(curr + 1)) {
+                next = getNextDay(justValues, next, visited);
                 int noOfContinuousVacantPosition = next - curr;
-                // Check if the Previous value for date is zero or sums to ZERO
-                processPreviousValue(justValues, curr);
                 int prevDayValue = justValues.get(curr);
                 /*
                  *Using Arithmetic progression to fill missing values
@@ -164,24 +202,19 @@ public class Solution {
         }
     }
 
-    /**
-     * @param justValues list consists of only the value part of Dictionary
-     * @param curr       current Index
-     *                   if the input data in the dictionary sums to zero for a specific day and the next day value is not present
-     */
-    private void processPreviousValue(List<Integer> justValues, int curr) {
-        if (justValues.get(curr) == Integer.MAX_VALUE) {
-            justValues.add(curr, 0);
-            justValues.remove(curr + 1);
-            //prevValue = 0;
-        }
-    }
 
-    private int getNextDay(List<Integer> justValues, int next) {
+    /**
+     * This method returns the Next day after the missing values
+     *
+     * @param justValues contains only the values from the dictionary
+     * @param next       starting index of missing values
+     * @param Visited    days which are present in dictionary
+     * @return the index of the Next Day
+     */
+    private int getNextDay(List<Integer> justValues, int next, Set<Integer> Visited) {
         int result = next;
-        while (result + 1 < justValues.size()) {
-            if (justValues.get(result + 1) == 0) {
-                //noOfContinuesVacantPosition++;
+        while ((result + 1) < justValues.size()) {
+            if (justValues.get(result + 1) == 0 && !Visited.contains(result + 1)) {
                 result++;
             } else {
                 break;
@@ -194,47 +227,40 @@ public class Solution {
      * Stores just the value in List justValues
      *
      * @param resDictionary Output Dictionary
-     * @param visited       list consist of days filled from input Dictionary
      * @param justValues    list consists of only the value part of Dictionary
      */
-    private void storingValueInList(LinkedHashMap<String, Integer> resDictionary, Set<String> visited, List<Integer> justValues) {
+    private void storingValueInList(LinkedHashMap<String, Integer> resDictionary, List<Integer> justValues) {
         for (String date : resDictionary.keySet()) {
-            if (visited.contains(date) && resDictionary.get(date) == 0) {
-                justValues.add(Integer.MAX_VALUE);
-            } else {
-                justValues.add(resDictionary.get(date));
-            }
+            justValues.add(resDictionary.get(date));
         }
     }
 
     /**
+     * This method Uses Arithmetic Progression to fill the missing Values
+     *
      * @param next                        index OF next Day where value is present or Already Filled
      * @param noOfContinuesVacantPosition no of continues Unfilled Values
      */
     private void arithmeticProgToFillValue(List<Integer> justValues, int curr, int next, int noOfContinuesVacantPosition, int prevValue) {
         int commonDiff = (justValues.get(next + 1) - prevValue) / (noOfContinuesVacantPosition + 1);
-        //System.out.println(commonDiff);
         //starts filling with second digit of the sequence X=2
         int x = 2;
         for (int i = curr + 1; i < next + 1; i++) {
-            justValues.add(i, prevValue + ((x - 1) * commonDiff));
-            justValues.remove(i + 1);
+            justValues.set(i, prevValue + ((x - 1) * commonDiff));
             x++;
         }
     }
 
     /**
+     * This method updates the missing Values to the output Dictionary
+     *
      * @param resDictionary output Dictionary
      * @param justValues    Values after processing (filling the missing dates)
      */
     private void updateValueInDictionary(LinkedHashMap<String, Integer> resDictionary, List<Integer> justValues) {
         int index = 0;
         for (String date : resDictionary.keySet()) {
-            if (justValues.get(index) == null) {
-                resDictionary.put(date, 0);
-            } else {
-                resDictionary.put(date, justValues.get(index));
-            }
+            resDictionary.put(date, justValues.get(index));
             index++;
         }
     }
