@@ -5,3 +5,9 @@ returns a Dictionary
 			With Key type String is Day
   		corresponding value is the sum of values of that day
 		
+
+I’m constantly working to improve myself, and I’d like to hear your thoughts about what are the areas I could improve upon.
+even if the application is not accepted.
+abhis.9427@gmail.com
+  
+		
