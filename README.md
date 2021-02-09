@@ -19,12 +19,12 @@ This project is simple program to convert the dates to days as Key and fill the 
 
 ## Algorithm
 Date in the dictionary is obtained and converted to date object and then
-converted to Calender to obtain the day numberthen using Switch statement
-And the corrosponding Valuse Obtained from input is Updated in Output 
+ converted to Calender to obtain the day numberthen using Switch statement
+And the corrosponding Values Obtained from input is Updated in Output 
 If there is any days whose values remain unfilled ,Arithmetic Progression 
 is used to fill the missing values
 ##### Arithmetic progression
-InitialValue +(N-1)*commonDifference
+InitialValue + (N-1)*commonDifference
 
 N is the index: N(1)=4, N(2)=6 N(N)=8 ....
 
